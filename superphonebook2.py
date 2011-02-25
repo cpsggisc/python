@@ -1,7 +1,7 @@
 # superphonebook.py
 # Super phone book to search, insert, delete, update, show all
 
-'''Populate phone book with existing contacts'''
+'''Populate phone book with existing contacts when program starts'''
 def initialize():
     try:
         # open input file
@@ -134,12 +134,30 @@ def export_contacts():
         print("Unable to export. Maybe disk full?")
 
 
+'''Populate CONTACTS.TXT with existing contacts when program ends'''
+def finalize():
+    try:
+        # open output file
+        outfile = open("CONTACTS.TXT", "w")
+
+        # write formatted names and contact numbers to file
+        for key, value in phonebook.items():
+            outfile.write("{0:20s}{1}\n".format(key, value))
+
+        # close output file
+        outfile.close()
+        
+    except IOError: # file write error
+        print("Unable to export. Maybe disk full?")   
+
+
+
 # main
 
 # initialize an empty dictionary
 phonebook = {}
 
-# populate phone book with existing contacts
+# populate phone book with existing contacts when program starts
 initialize()
 
 # assume not done
@@ -174,6 +192,9 @@ while not done:
     else: # invalid choices
         print("Invalid option! Try again.")
     print()
+
+# populate CONTACTS.TXT with existing contacts when program ends
+finalize()
         
 # exit
 print("Bye.")
